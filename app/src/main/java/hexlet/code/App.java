@@ -9,13 +9,13 @@ import org.slf4j.LoggerFactory;
 
 public class App {
 
-    private int port;
+    private final static int PORT = 7070;
     public static void main(String[] args) {
         Logger logger = LoggerFactory.getLogger(App.class);
         logger.info("Hello World");
 
         var app = getApp();
-        app.start();
+        app.start(PORT);
     }
 
     public static Javalin getApp() {
