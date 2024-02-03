@@ -46,7 +46,7 @@ public class App {
         hikariConfig.setJdbcUrl(dbUrl);
 
         var dataSource = new HikariDataSource(hikariConfig);
-        var url = App.class.getClassLoader().getResource("/urls.sql");
+        var url = App.class.getClassLoader().getResource("urls.sql");
         var file = new File(url.getFile());
         var sql = Files.lines(file.toPath())
                 .collect(Collectors.joining("\n"));
