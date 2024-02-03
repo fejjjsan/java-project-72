@@ -28,10 +28,11 @@ public class App {
         Map<String, String> env = System.getenv();
 
         if (env.containsKey("JDBC_DATABASE_URL")) {
-            System.out.println(env.get("JDBC_DATABASE_URL") + "THIS IS DBURL");
+            System.out.println(env.get("JDBC_DATABASE_URL") + "THIS IS DB-URL");
             var dbUrl = env.get("JDBC_DATABASE_URL");
             getApp(dbUrl).start(5432);
         } else {
+            System.out.println(localUrl);
             getApp(localUrl).start(7070);
         }
     }
