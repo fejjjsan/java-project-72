@@ -34,14 +34,14 @@ public class App {
 
         var jte = new JavalinJte();
 
-        Javalin app = getApp("jdbc:h2:mem:project;DB_CLOSE_DELAY=-1").start(7070);
+        Javalin app;
 
-//        if (env.containsKey("JDBC_DATABASE_URL")) {
-//            var dbUrl = env.get("JDBC_DATABASE_URL");
-//            app = getApp(dbUrl).start(5432);
-//        } else {
-//            app = getApp("jdbc:h2:mem:project;DB_CLOSE_DELAY=-1").start(7070);
-//        }
+        if (env.containsKey("JDBC_DATABASE_URL")) {
+            var dbUrl = env.get("JDBC_DATABASE_URL");
+            app = getApp(dbUrl).start(5432);
+        } else {
+            app = getApp("jdbc:h2:mem:project;DB_CLOSE_DELAY=-1").start(7070);
+        }
 
         app.get(NamedRoutes.rootPath(), RootController::index);
         app.post(NamedRoutes.urlsPath(), UrlsController::addUrl);
