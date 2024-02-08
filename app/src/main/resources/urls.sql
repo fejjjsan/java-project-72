@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS urls;
 
 CREATE TABLE urls (
-    id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    id bigint GENERATED ALWAYS AS IDENTITY,
     name varchar(255) NOT NULL,
     createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
