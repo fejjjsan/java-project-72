@@ -16,7 +16,7 @@ public class UrlsRepository extends BaseRepository {
         try (var conn = dataSource.getConnection();
                 var preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, entity.getName());
-            preparedStatement.setString(2, entity.getCreatedAt());
+            preparedStatement.setTimestamp(2, entity.getCreatedAt());
             preparedStatement.executeUpdate();
 
             var generatedKeys = preparedStatement.getGeneratedKeys();
@@ -39,7 +39,7 @@ public class UrlsRepository extends BaseRepository {
 
             if (result.next()) {
                 var name = result.getString("name");
-                var createdAt = result.getString("createdAt");
+                var createdAt = result.getTimestamp("createdAt");
                 var url = new Url(name, createdAt);
                 url.setId(id);
 
@@ -59,7 +59,7 @@ public class UrlsRepository extends BaseRepository {
 
             if (result.next()) {
                 var id = result.getLong("id");
-                var createdAt = result.getString("createdAt");
+                var createdAt = result.getTimestamp("createdAt");
                 var url = new Url(name, createdAt);
                 url.setId(id);
 
@@ -80,7 +80,7 @@ public class UrlsRepository extends BaseRepository {
 
             while (resultSet.next()) {
                 var name = resultSet.getString("name");
-                var createdAt = resultSet.getString("createdAt");
+                var createdAt = resultSet.getTimestamp("createdAt");
                 var id = resultSet.getLong("id");
                 var url = new Url(name, createdAt);
                 url.setId(id);

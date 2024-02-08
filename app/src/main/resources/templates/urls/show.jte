@@ -14,7 +14,7 @@
         </tr>
         <tr>
             <th>createAt</th>
-            <td>${page.getUrl().getCreatedAt()}</td>
+            <td>${page.getUrl().getCreatedAt().toString()}</td>
         </tr>
     </table>
 `)

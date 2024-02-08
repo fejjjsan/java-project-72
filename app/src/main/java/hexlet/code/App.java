@@ -32,8 +32,6 @@ public class App {
 
         Map<String, String> env = System.getenv();
 
-        var jte = new JavalinJte();
-
         Javalin app;
 
         if (env.containsKey("JDBC_DATABASE_URL")) {

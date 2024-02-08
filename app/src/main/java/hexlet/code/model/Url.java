@@ -4,6 +4,8 @@ import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 
 @NoArgsConstructor
 @Getter
@@ -11,9 +13,9 @@ import lombok.Setter;
 public class Url {
     private Long id;
     private String name;
-    private String createdAt;
+    private Timestamp createdAt;
 
-    public Url(String name, String createdAt) {
+    public Url(String name, Timestamp createdAt) {
         this.name = name;
         this.createdAt = createdAt;
     }

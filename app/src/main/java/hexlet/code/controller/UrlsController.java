@@ -29,7 +29,7 @@ public class UrlsController {
                 ctx.redirect(NamedRoutes.urlsPath());
             } else if (validateURL(parsedURL)) {
                 var date = new Date();
-                var timestamp = new Timestamp(date.getTime()).toString();
+                var timestamp = new Timestamp(date.getTime());
                 var newUrl = new Url(parsedURL, timestamp);
                 UrlsRepository.save(newUrl);
 
