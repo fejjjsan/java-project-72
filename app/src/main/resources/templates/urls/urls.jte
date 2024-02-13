@@ -1,5 +1,7 @@
 @import hexlet.code.dto.UrlsPage
 @import hexlet.code.util.NamedRoutes
+@import java.text.SimpleDateFormat
+
 
 @param UrlsPage page
 
@@ -13,8 +15,35 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    @for(var url: page.getUrls())
-        <p>${url.getId()}</p>
-        <a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a>
-    @endfor
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Last check</th>
+                <th scope="col">Status code</th>
+            </tr>
+        </thead>
+        <tbody>
+                @if(page.getUrls() != null)
+                    @for(var url : page.getUrls())
+                        <tr>
+                        <th scope="row">${url.getId()}</th>
+                        <td><a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a></td>
+                        @if(page.getChecks() != null && page.getChecks().containsKey(url.getId()))
+                            <td>${page.getChecks().get(url.getId()).getCreatedAt().toString()}</td>
+                            <td>${page.getChecks().get(url.getId()).getStatusCode()}</td>
+                        @else
+                            <td></td>
+                            <td></td>
+                        @endif
+                        </tr>
+                    @endfor
+                @endif
+        </tbody>
+    </table>
 `)
+
+
+<%--@if (url.getId().equals(check.getUrlId()))--%>
+

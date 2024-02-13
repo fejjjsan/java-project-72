@@ -26,11 +26,14 @@ dependencies {
     implementation 'commons-validator:commons-validator:1.8.0'
 
 
+
     implementation 'org.slf4j:slf4j-simple:2.0.10'
     implementation 'com.zaxxer:HikariCP:5.1.0'
     implementation 'com.h2database:h2:2.2.224'
     implementation 'org.postgresql:postgresql:42.7.1'
 
+    implementation 'com.konghq:unirest-java:3.14.5'
+    implementation 'org.jsoup:jsoup:1.17.2'
 
 
     compileOnly 'org.projectlombok:lombok:1.18.30'

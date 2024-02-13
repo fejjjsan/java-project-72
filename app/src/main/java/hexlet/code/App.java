@@ -5,16 +5,17 @@ import com.zaxxer.hikari.HikariDataSource;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
+import hexlet.code.controller.ChecksController;
 import hexlet.code.controller.RootController;
 import hexlet.code.controller.UrlsController;
 import hexlet.code.repository.BaseRepository;
+
 import hexlet.code.util.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.naming.Name;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,9 +25,8 @@ import java.util.stream.Collectors;
 
 
 public class App {
-
     private final static int PORT = 7070;
-    private final static String localUrl = "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1";
+    private final static String LOCAL_URL = "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1";
 
     public static void main(String[] args) throws SQLException, IOException {
 
@@ -38,13 +38,14 @@ public class App {
             var dbUrl = env.get("JDBC_DATABASE_URL");
             app = getApp(dbUrl).start(5432);
         } else {
-            app = getApp("jdbc:h2:mem:project;DB_CLOSE_DELAY=-1").start(7070);
+            app = getApp(LOCAL_URL).start(PORT);
         }
 
         app.get(NamedRoutes.rootPath(), RootController::index);
         app.post(NamedRoutes.urlsPath(), UrlsController::addUrl);
         app.get(NamedRoutes.urlsPath(), UrlsController::getUrls);
         app.get(NamedRoutes.urlPath("{id}"), UrlsController::showUrl);
+        app.post(NamedRoutes.checksPath("{id}"), ChecksController::addCheck);
     }
 
     public static Javalin getApp(String dbUrl) throws IOException, SQLException {
@@ -57,8 +58,7 @@ public class App {
 
         var url = App.class.getClassLoader().getResource("urls.sql");
         var file = new File(url.getFile());
-        var sql = Files.lines(file.toPath())
-                .collect(Collectors.joining("\n"));
+        var sql = Files.lines(file.toPath()).collect(Collectors.joining("\n"));
 
         try (var conn = dataSource.getConnection();
              var statement = conn.createStatement()) {
@@ -66,11 +66,9 @@ public class App {
         }
 
         BaseRepository.dataSource = dataSource;
-        
         JavalinJte.init(createTemplateEngine());
-        
-        var app = Javalin.create(javalinConfig -> javalinConfig.plugins.enableDevLogging());
-        return app;
+
+        return Javalin.create(javalinConfig -> javalinConfig.plugins.enableDevLogging());
     }
 
     private static TemplateEngine createTemplateEngine() {

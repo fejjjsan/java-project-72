@@ -3,5 +3,20 @@ DROP TABLE IF EXISTS urls;
 CREATE TABLE urls (
     id bigint GENERATED ALWAYS AS IDENTITY,
     name varchar(255) NOT NULL,
-    createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS url_checks;
+
+CREATE TABLE url_checks (
+    check_id bigint GENERATED ALWAYS AS IDENTITY,
+    url_id bigint NOT NULL,
+    status_code int NOT NULL,
+    title varchar(255),
+    h1 varchar(255),
+    description text,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (check_id),
+    FOREIGN KEY (url_id) REFERENCES urls(id)
 );

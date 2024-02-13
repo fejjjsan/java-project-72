@@ -3,15 +3,13 @@ package hexlet.code.repository;
 import hexlet.code.model.Url;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Optional;
 
 public class UrlsRepository extends BaseRepository {
     public static void save(Url entity) throws SQLException {
-        var sql = "INSERT INTO urls (name, createdAt) VALUES (?, ?)";
+        var sql = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
 
         try (var conn = dataSource.getConnection();
                 var preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -33,13 +31,13 @@ public class UrlsRepository extends BaseRepository {
         var sql = "SELECT * FROM urls WHERE id=?";
 
         try (var conn = dataSource.getConnection();
-                var preparedStatement = conn.prepareStatement(sql)) {
+             var preparedStatement = conn.prepareStatement(sql)) {
             preparedStatement.setLong(1, id);
             var result = preparedStatement.executeQuery();
 
             if (result.next()) {
                 var name = result.getString("name");
-                var createdAt = result.getTimestamp("createdAt");
+                var createdAt = result.getTimestamp("created_at");
                 var url = new Url(name, createdAt);
                 url.setId(id);
 
@@ -59,7 +57,7 @@ public class UrlsRepository extends BaseRepository {
 
             if (result.next()) {
                 var id = result.getLong("id");
-                var createdAt = result.getTimestamp("createdAt");
+                var createdAt = result.getTimestamp("created_at");
                 var url = new Url(name, createdAt);
                 url.setId(id);
 
@@ -80,7 +78,7 @@ public class UrlsRepository extends BaseRepository {
 
             while (resultSet.next()) {
                 var name = resultSet.getString("name");
-                var createdAt = resultSet.getTimestamp("createdAt");
+                var createdAt = resultSet.getTimestamp("created_at");
                 var id = resultSet.getLong("id");
                 var url = new Url(name, createdAt);
                 url.setId(id);
