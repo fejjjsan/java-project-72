@@ -6,13 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import hexlet.code.model.UrlCheck;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
-public class UrlsPage {
-    private List<Url> urls;
-    private HashMap<Long, UrlCheck> checks;
-    private Object message;
+public class UrlsPage extends MainPage {
+    private final List<Url> urls;
+    private final HashMap<Long, UrlCheck> checks;
+
+    public UrlsPage(Object message, List<Url> urls, HashMap<Long, UrlCheck> checks) {
+        super(message);
+        this.urls = urls;
+        this.checks = checks;
+    }
 }

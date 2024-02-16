@@ -19,8 +19,8 @@ public class ChecksController {
         var urlId = ctx.pathParamAsClass("id", Long.class).get();
         String urlName;
 
-        if (UrlsRepository.find(urlId).isPresent()) {
-            urlName = UrlsRepository.find(urlId).get().getName();
+        if (UrlsRepository.findByID(urlId).isPresent()) {
+            urlName = UrlsRepository.findByID(urlId).get().getName();
         } else {
             throw new NotFoundResponse();
         }
@@ -36,11 +36,12 @@ public class ChecksController {
                     .build();
             ChecksRepository.save(check);
 
+            ctx.sessionAttribute("message", "Страница успешно проверена");
             ctx.redirect(NamedRoutes.urlPath(urlId));
 
         } catch (UnirestException e) {
+            ctx.sessionAttribute("message", "Некорректный адрес");
             ctx.redirect(NamedRoutes.urlPath(urlId));
-            throw new UnirestException("Сайт не прошел проверку");
         }
 
     }

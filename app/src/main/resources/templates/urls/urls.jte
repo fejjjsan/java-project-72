@@ -1,7 +1,5 @@
 @import hexlet.code.dto.UrlsPage
 @import hexlet.code.util.NamedRoutes
-@import java.text.SimpleDateFormat
-
 
 @param UrlsPage page
 
@@ -31,7 +29,7 @@
                         <th scope="row">${url.getId()}</th>
                         <td><a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a></td>
                         @if(page.getChecks() != null && page.getChecks().containsKey(url.getId()))
-                            <td>${page.getChecks().get(url.getId()).getCreatedAt().toString()}</td>
+                            <td>${page.formatTimestamp(page.getChecks().get(url.getId()).getCreatedAt())}</td>
                             <td>${page.getChecks().get(url.getId()).getStatusCode()}</td>
                         @else
                             <td></td>
@@ -43,7 +41,3 @@
         </tbody>
     </table>
 `)
-
-
-<%--@if (url.getId().equals(check.getUrlId()))--%>
-

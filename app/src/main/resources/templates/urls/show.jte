@@ -4,6 +4,19 @@
 @param UrlPage page
 
 @template.layout.page(content = @`
+    @if (page.getMessage() != null)
+        @if (page.getMessage().toString().contains("успешно"))
+        <div class="rounded-0 m-0 alert alert-dismissible fade show alert-primary" role="alert">
+            <p class="m-0">${page.getMessage().toString()}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @else
+        <div class="rounded-0 m-0 alert alert-dismissible fade show alert-danger" role="alert">
+            <p class="m-0">${page.getMessage().toString()}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+    @endif
     <table>
         <tr>
             <th>id</th>
@@ -15,7 +28,7 @@
         </tr>
         <tr>
             <th>createAt</th>
-            <td>${page.getUrl().getCreatedAt().toString()}</td>
+            <td>${page.formatTimestamp(page.getUrl().getCreatedAt())}</td>
         </tr>
     </table>
     <form action="${NamedRoutes.checksPath(page.getUrl().getId())}" method="post">
@@ -41,7 +54,7 @@
                 <td>${check.getH1()}</td>
                 <td>${check.getDescription()}</td>
                 <td>${check.getStatusCode()}</td>
-                <td>${check.getCreatedAt().toString()}</td>
+                <td>${page.formatTimestamp(check.getCreatedAt())}</td>
             </tr>
             @endfor
             </tbody>

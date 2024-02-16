@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 
 
 public class App {
-    private final static int PORT = 7070;
-    private final static String LOCAL_URL = "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1";
+    private static final  int PORT = 7070;
+    private static final  String LOCAL_URL = "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1";
 
     public static void main(String[] args) throws SQLException, IOException {
 
@@ -41,11 +41,6 @@ public class App {
             app = getApp(LOCAL_URL).start(PORT);
         }
 
-        app.get(NamedRoutes.rootPath(), RootController::index);
-        app.post(NamedRoutes.urlsPath(), UrlsController::addUrl);
-        app.get(NamedRoutes.urlsPath(), UrlsController::getUrls);
-        app.get(NamedRoutes.urlPath("{id}"), UrlsController::showUrl);
-        app.post(NamedRoutes.checksPath("{id}"), ChecksController::addCheck);
     }
 
     public static Javalin getApp(String dbUrl) throws IOException, SQLException {
@@ -68,7 +63,15 @@ public class App {
         BaseRepository.dataSource = dataSource;
         JavalinJte.init(createTemplateEngine());
 
-        return Javalin.create(javalinConfig -> javalinConfig.plugins.enableDevLogging());
+        var app = Javalin.create(javalinConfig -> javalinConfig.plugins.enableDevLogging());
+
+        app.get(NamedRoutes.rootPath(), RootController::index);
+        app.post(NamedRoutes.urlsPath(), UrlsController::addUrl);
+        app.get(NamedRoutes.urlsPath(), UrlsController::getUrls);
+        app.get(NamedRoutes.urlPath("{id}"), UrlsController::showUrl);
+        app.post(NamedRoutes.checksPath("{id}"), ChecksController::addCheck);
+
+        return app;
     }
 
     private static TemplateEngine createTemplateEngine() {

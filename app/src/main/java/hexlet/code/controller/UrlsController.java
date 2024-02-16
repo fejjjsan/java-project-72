@@ -11,9 +11,7 @@ import io.javalin.http.Context;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 
 import hexlet.code.util.NamedRoutes;
@@ -32,8 +30,7 @@ public class UrlsController {
                 ctx.sessionAttribute("message", "сайт уже добавлен");
                 ctx.redirect(NamedRoutes.urlsPath());
             } else if (validateURL(parsedURL)) {
-                var ts = new Timestamp(new Date().getTime());
-                var newUrl = new Url(parsedURL, ts);
+                var newUrl = new Url(parsedURL);
                 UrlsRepository.save(newUrl);
 
                 ctx.sessionAttribute("message", "сайт успешно добавлен");
@@ -48,7 +45,7 @@ public class UrlsController {
     public static void getUrls(Context ctx) throws SQLException {
         var message = ctx.sessionAttribute("message");
         ctx.consumeSessionAttribute("message");
-        var checks = new HashMap<Long,UrlCheck>();
+        var checks = new HashMap<Long, UrlCheck>();
         if (!UrlsRepository.getEntities().isEmpty()) {
             for (var url : UrlsRepository.getEntities()) {
                 var id = url.getId();
@@ -58,27 +55,34 @@ public class UrlsController {
             }
         }
 
-        var page = new UrlsPage(UrlsRepository.getEntities(), checks, message);
+        var page = new UrlsPage(message, UrlsRepository.getEntities(), checks);
         ctx.render("urls/urls.jte", Collections.singletonMap("page", page));
     }
 
     public static void showUrl(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Long.class).get();
-        var url = UrlsRepository.find(id)
+        var message = ctx.sessionAttribute("message");
+        ctx.consumeSessionAttribute("message");
+        var url = UrlsRepository.findByID(id)
                 .orElseThrow(() -> new NotFoundResponse("URL not found"));
         var checks = ChecksRepository.getUrlChecks(id);
-        var page = new UrlPage(url, checks);
+        var page = new UrlPage(message, url, checks);
         ctx.render("urls/show.jte", Collections.singletonMap("page", page));
     }
+
+
+
+
+
 
     private static String parseURL(String url) throws URISyntaxException {
         var normalizedURL = url.replaceAll(" ", "");
         var uri = new URI(normalizedURL);
-        return uri.getScheme() +"://"+ uri.getAuthority();
+        return uri.getScheme() + "://" + uri.getAuthority();
     }
 
     private static Boolean validateURL(String url) {
-        String[] schemas = {"http","https"};
+        String[] schemas = {"http", "https"};
         var validator = new UrlValidator(schemas);
         return validator.isValid(url);
     }

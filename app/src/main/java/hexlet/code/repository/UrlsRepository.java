@@ -2,6 +2,7 @@ package hexlet.code.repository;
 
 import hexlet.code.model.Url;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,7 +15,7 @@ public class UrlsRepository extends BaseRepository {
         try (var conn = dataSource.getConnection();
                 var preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, entity.getName());
-            preparedStatement.setTimestamp(2, entity.getCreatedAt());
+            preparedStatement.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
             preparedStatement.executeUpdate();
 
             var generatedKeys = preparedStatement.getGeneratedKeys();
@@ -27,7 +28,7 @@ public class UrlsRepository extends BaseRepository {
         }
     }
 
-    public static Optional<Url> find(Long id) throws SQLException {
+    public static Optional<Url> findByID(Long id) throws SQLException {
         var sql = "SELECT * FROM urls WHERE id=?";
 
         try (var conn = dataSource.getConnection();
@@ -40,7 +41,6 @@ public class UrlsRepository extends BaseRepository {
                 var createdAt = result.getTimestamp("created_at");
                 var url = new Url(name, createdAt);
                 url.setId(id);
-
                 return Optional.of(url);
             }
         }

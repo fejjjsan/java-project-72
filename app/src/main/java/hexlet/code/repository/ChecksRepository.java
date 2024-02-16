@@ -4,13 +4,12 @@ import hexlet.code.model.UrlCheck;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Optional;
 
-public class ChecksRepository extends BaseRepository{
+public class ChecksRepository extends BaseRepository {
     public static void save(UrlCheck check) throws SQLException {
         var sql = """
                 INSERT INTO url_checks (url_id, status_code, title, h1, description, created_at)
@@ -20,13 +19,12 @@ public class ChecksRepository extends BaseRepository{
         try (var conn = dataSource.getConnection();
                 var prepareStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            var ts = new Timestamp(new Date().getTime());
             prepareStatement.setLong(1, check.getUrlId());
             prepareStatement.setInt(2, check.getStatusCode());
             prepareStatement.setString(3, check.getTitle());
             prepareStatement.setString(4, check.getH1());
             prepareStatement.setString(5, check.getDescription());
-            prepareStatement.setTimestamp(6, ts);
+            prepareStatement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
             prepareStatement.executeUpdate();
 
             var generatedKeys = prepareStatement.getGeneratedKeys();
