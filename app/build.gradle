@@ -62,9 +62,13 @@ testlogger {
     showSimpleNames true
 }
 
+test {
+    finalizedBy jacocoTestReport
+}
+
 jacocoTestReport {
     dependsOn test
     reports {
-        xml.required = false
+        xml.required = true
     }
 }
