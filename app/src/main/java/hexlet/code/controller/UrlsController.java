@@ -22,7 +22,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 public class UrlsController {
 
     public static void addUrl(Context ctx) throws URISyntaxException, SQLException {
-        String url = ctx.formParam("url").replaceAll(" ", "");
+        String url = ctx.formParam("url").trim();
 
         if (validateURL(url)) {
             String parsedURL = parseURL(url);
@@ -71,10 +71,6 @@ public class UrlsController {
     }
 
 
-
-
-
-
     private static String parseURL(String url) throws URISyntaxException {
         var normalizedURL = url.replaceAll(" ", "");
         var uri = new URI(normalizedURL);
@@ -83,7 +79,7 @@ public class UrlsController {
 
     private static Boolean validateURL(String url) {
         String[] schemas = {"http", "https"};
-        var validator = new UrlValidator(schemas);
+        var validator = new UrlValidator(schemas, UrlValidator.ALLOW_LOCAL_URLS);
         return validator.isValid(url);
     }
 
