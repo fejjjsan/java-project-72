@@ -8,7 +8,6 @@ import hexlet.code.util.NamedRoutes;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -39,7 +38,7 @@ public class ChecksController {
             ctx.sessionAttribute("message", "Страница успешно проверена");
             ctx.redirect(NamedRoutes.urlPath(urlId));
 
-        } catch (UnirestException e) {
+        } catch (Exception e) {
             ctx.sessionAttribute("message", "Некорректный адрес");
             ctx.redirect(NamedRoutes.urlPath(urlId));
         }
@@ -48,6 +47,7 @@ public class ChecksController {
 
 
     private static Document getHtml(String url) {
+        Unirest.config().socketTimeout(60000);
         String body = Unirest.get(url).asString().getBody();
         return Jsoup.parse(body);
     }

@@ -14,24 +14,36 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 public final class AppTest {
 
     private Javalin app;
-    private static MockWebServer mock;
+    private static final MockWebServer MOCK_WEB_SERVER = new MockWebServer();
 
+    private static String getResourcePage(String fileName) throws IOException {
+        var fileLoc = AppTest.class.getClassLoader().getResource(fileName);
+        var file = new File(fileLoc.getFile());
+        var html = Files.lines(file.toPath()).collect(Collectors.joining("\n"));
+        return html;
+    }
 
     @BeforeAll
     public static void startMock() throws IOException {
-        mock = new MockWebServer();
-        mock.start();
+        MOCK_WEB_SERVER.start();
+        MOCK_WEB_SERVER.enqueue(new MockResponse()
+                .addHeader("Content-Type", "text/html")
+                .setResponseCode(200)
+                .setBody(getResourcePage("index.html")));
     }
 
     @AfterAll
     public static void shutdownMock() throws IOException {
-        mock.shutdown();
+        MOCK_WEB_SERVER.shutdown();
     }
 
     @BeforeEach
@@ -81,38 +93,18 @@ public final class AppTest {
 
     @Test
     public void testUrlCheck() {
-
             JavalinTest.test(app, (((server, client) -> {
-
-                var response = new MockResponse()
-                        .addHeader("Content-Type", "text/html")
-                        .setBody("""
-                    {<!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                      <meta charset="UTF-8">
-                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                      <meta property="description" content="I'm description">
-                      <title>Document</title>
-                    </head>
-                    <body>
-                      <h1>Hexlet</h1>
-                    </body>
-                    </html>}
-                    """);
-
-                mock.enqueue(response);
-                String baseUrl = mock.url("/").toString();
+                String baseUrl = MOCK_WEB_SERVER.url("/").toString();
                 var responseBody = "url=" + baseUrl;
-                var url = new Url(baseUrl);
-                UrlsRepository.save(url);
+
                 var response1 = client.post(NamedRoutes.urlsPath(), responseBody);
                 assertThat(response1.code()).isEqualTo(200);
-                assertThat(response1.body().string()).contains(baseUrl);
+                var name = UrlsRepository.findByID(1L).get().getName();
+                assertThat(response1.body().string()).contains(name);
+
                 var response2 = client.post(NamedRoutes.checksPath(1L));
                 assertThat(response2.code()).isEqualTo(200);
-                assertThat(response2.body().string()).contains("Document");
+                assertThat(response2.body().string()).contains("I'm title");
             })));
     }
-
 }

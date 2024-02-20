@@ -36,11 +36,12 @@ public class App {
 
         if (env.containsKey("JDBC_DATABASE_URL")) {
             var dbUrl = env.get("JDBC_DATABASE_URL");
-            app = getApp(dbUrl).start();
+            app = getApp(dbUrl);
         } else {
-            app = getApp(LOCAL_URL).start();
+            app = getApp(LOCAL_URL);
         }
 
+        app.start();
     }
 
     public static Javalin getApp(String dbUrl) throws IOException, SQLException {
