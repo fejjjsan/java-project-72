@@ -34,11 +34,16 @@ public final class AppTest {
 
     @BeforeAll
     public static void startMock() throws IOException {
-        MOCK_WEB_SERVER.start();
-        MOCK_WEB_SERVER.enqueue(new MockResponse()
+        var response = new MockResponse()
                 .addHeader("Content-Type", "text/html")
                 .setResponseCode(200)
-                .setBody(getResourcePage("index.html")));
+                .setBody("""
+                        <meta name="description" content="Хекслет — Лучшая школа программирования">
+                        <title>I'm title</title>
+                        <h1>Hello Hexlet!</h1>
+                        """);
+        MOCK_WEB_SERVER.enqueue(response);
+        MOCK_WEB_SERVER.start();
     }
 
     @AfterAll
@@ -94,6 +99,7 @@ public final class AppTest {
     @Test
     public void testUrlCheck() {
             JavalinTest.test(app, (((server, client) -> {
+
                 String baseUrl = MOCK_WEB_SERVER.url("/").toString();
                 var responseBody = "url=" + baseUrl;
 
@@ -104,7 +110,11 @@ public final class AppTest {
 
                 var response2 = client.post(NamedRoutes.checksPath(1L));
                 assertThat(response2.code()).isEqualTo(200);
-                assertThat(response2.body().string()).contains("I'm title");
+                var body = response2.body().string();
+                assertThat(body).contains("I'm title");
+                assertThat(body).contains("Хекслет — Лучшая школа программирования");
+                assertThat(body).contains("Hello Hexlet!");
+                assertThat(body).contains("200");
             })));
     }
 }

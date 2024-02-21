@@ -25,10 +25,13 @@ public class ChecksController {
         }
 
         try {
-            var html = getHtml(urlName);
+            var response = Unirest.get(urlName).asString();
+            String body = response.getBody();
+            var statusCode = response.getStatus();
+            var html = Jsoup.parse(body);
             var check = UrlCheck.builder()
                     .urlId(urlId)
-                    .statusCode(getStatusCode(urlName))
+                    .statusCode(statusCode)
                     .title(getTitle(html))
                     .h1(getH1(html))
                     .description(getDescription(html))
@@ -45,12 +48,6 @@ public class ChecksController {
 
     }
 
-
-    private static Document getHtml(String url) {
-        Unirest.config().socketTimeout(60000);
-        String body = Unirest.get(url).asString().getBody();
-        return Jsoup.parse(body);
-    }
 
     private static String getTitle(Document html) {
         return html.title();
@@ -70,7 +67,4 @@ public class ChecksController {
         return "";
     }
 
-    private static int getStatusCode(String url) {
-        return Unirest.get(url).asString().getStatus();
-    }
 }
