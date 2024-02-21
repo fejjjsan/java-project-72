@@ -37,11 +37,8 @@ public final class AppTest {
         var response = new MockResponse()
                 .addHeader("Content-Type", "text/html")
                 .setResponseCode(200)
-                .setBody("""
-                        <meta name="description" content="Хекслет — Лучшая школа программирования">
-                        <title>I'm title</title>
-                        <h1>Hello Hexlet!</h1>
-                        """);
+                .setBody(getResourcePage("index.html"));
+
         MOCK_WEB_SERVER.enqueue(response);
         MOCK_WEB_SERVER.start();
     }

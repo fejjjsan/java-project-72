@@ -81,29 +81,4 @@ public class ChecksRepository extends BaseRepository {
         }
         return Optional.empty();
     }
-
-    public static ArrayList<UrlCheck> getEntities() throws SQLException {
-        var sql = "SELECT * FROM url_checks";
-
-        try (var conn = dataSource.getConnection();
-             var preparedStatement = conn.prepareStatement(sql)) {
-            var resultSet = preparedStatement.executeQuery();
-            var result = new ArrayList<UrlCheck>();
-
-            while (resultSet.next()) {
-                var urlCheck = UrlCheck.builder()
-                        .id(resultSet.getLong("check_id"))
-                        .urlId(resultSet.getLong("url_id"))
-                        .statusCode(resultSet.getInt("status_code"))
-                        .title(resultSet.getString("title"))
-                        .h1(resultSet.getString("h1"))
-                        .description(resultSet.getString("description"))
-                        .createdAt(resultSet.getTimestamp("created_at"))
-                        .build();
-                result.add(urlCheck);
-            }
-            return result;
-        }
-    }
-
 }
