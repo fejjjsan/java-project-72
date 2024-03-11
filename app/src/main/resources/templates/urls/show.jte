@@ -6,7 +6,7 @@
 @template.layout.page(content = @`
     @if (page.getMessage() != null)
         @if (page.getMessage().toString().contains("успешно"))
-        <div class="rounded-0 m-0 alert alert-dismissible fade show alert-primary" role="alert">
+        <div class="rounded-0 m-0 alert alert-dismissible fade show alert-success" role="alert">
             <p class="m-0">${page.getMessage().toString()}</p>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -17,33 +17,39 @@
         </div>
         @endif
     @endif
-    <table>
-        <tr>
-            <th>id</th>
-            <td>${page.getUrl().getId()}</td>
-        </tr>
-        <tr>
-            <th>name</th>
-            <td>${page.getUrl().getName()}</td>
-        </tr>
-        <tr>
-            <th>createAt</th>
-            <td>${page.formatTimestamp(page.getUrl().getCreatedAt())}</td>
-        </tr>
-    </table>
+    <section>
+        <div class="container-lg mt-5">
+        <h1>Cайт: ${page.getUrl().getName()}</h1>
+        <table class="table table-bordered table-hover">
+            <tbody>
+            <tr>
+                <th>ID</th>
+                <td>${page.getUrl().getId()}</td>
+            </tr>
+            <tr>
+                <th>Имя</th>
+                <td>${page.getUrl().getName()}</td>
+            </tr>
+            <tr>
+                <th>Дата создания</th>
+                <td>${page.formatTimestamp(page.getUrl().getCreatedAt())}</td>
+            </tr>
+            </tbody>
+        </table>
+
     <form action="${NamedRoutes.checksPath(page.getUrl().getId())}" method="post">
-        <input class="btn btn-primary" type="submit" >
+        <button type="submit" class="btn btn-primary">Запустить проверку</button>
     </form>
     @if (page.getChecks() != null)
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover mt-3">
             <thead>
             <tr>
-                <th scope="col">#</th>
+                <th scope="col">ID</th>
                 <th scope="col">title</th>
                 <th scope="col">h1</th>
                 <th scope="col">description</th>
-                <th scope="col">status code</th>
-                <th scope="col">created at</th>
+                <th scope="col">Код ответа</th>
+                <th scope="col">Дата проверки</th>
             </tr>
             </thead>
             <tbody>
@@ -59,6 +65,8 @@
             @endfor
             </tbody>
         </table>
+        </div>
+    </section>
     @endif
 `)
 
