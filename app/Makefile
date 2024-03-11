@@ -1,6 +1,6 @@
 # Makefile
 
-build:
+setup:
 	./gradlew clean
 	./gradlew build
 
