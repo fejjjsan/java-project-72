@@ -13,8 +13,6 @@ public class UrlCheck {
     private int statusCode;
     private String title;
     private String h1;
-    private String description; // TEXT in postgres
+    private String description;
     private Timestamp createdAt;
-
-//    public UrlCheck() {}
 }

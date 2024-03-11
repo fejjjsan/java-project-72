@@ -6,23 +6,24 @@ import hexlet.code.model.Url;
 import hexlet.code.model.UrlCheck;
 import hexlet.code.repository.ChecksRepository;
 import hexlet.code.repository.UrlsRepository;
-import io.javalin.http.Context;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Objects;
 
 import hexlet.code.util.NamedRoutes;
 import io.javalin.http.NotFoundResponse;
+import io.javalin.http.Context;
 import org.apache.commons.validator.routines.UrlValidator;
 
 
 public class UrlsController {
 
     public static void addUrl(Context ctx) throws URISyntaxException, SQLException {
-        String url = ctx.formParam("url").trim();
+        String url = Objects.requireNonNull(ctx.formParam("url")).trim();
 
         if (validateURL(url)) {
             String parsedURL = parseURL(url);
@@ -46,12 +47,10 @@ public class UrlsController {
         var message = ctx.sessionAttribute("message");
         ctx.consumeSessionAttribute("message");
         var checks = new HashMap<Long, UrlCheck>();
-        if (!UrlsRepository.getEntities().isEmpty()) {
-            for (var url : UrlsRepository.getEntities()) {
-                var id = url.getId();
-                if (ChecksRepository.getLastCheck(id).isPresent()) {
-                    checks.put(id, ChecksRepository.getLastCheck(id).get());
-                }
+        for (var url : UrlsRepository.getEntities()) {
+            var id = url.getId();
+            if (ChecksRepository.getLastCheck(id).isPresent()) {
+                checks.put(id, ChecksRepository.getLastCheck(id).get());
             }
         }
 
