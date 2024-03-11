@@ -17,7 +17,6 @@ public class ChecksController {
     public static void addCheck(Context ctx) throws SQLException {
         var urlId = ctx.pathParamAsClass("id", Long.class).get();
         String urlName;
-
         if (UrlsRepository.findByID(urlId).isPresent()) {
             urlName = UrlsRepository.findByID(urlId).get().getName();
         } else {
@@ -37,15 +36,12 @@ public class ChecksController {
                     .description(getDescription(html))
                     .build();
             ChecksRepository.save(check);
-
             ctx.sessionAttribute("message", "Страница успешно проверена");
             ctx.redirect(NamedRoutes.urlPath(urlId));
-
         } catch (Exception e) {
             ctx.sessionAttribute("message", "Некорректный адрес");
             ctx.redirect(NamedRoutes.urlPath(urlId));
         }
-
     }
 
 
@@ -62,9 +58,10 @@ public class ChecksController {
 
     private static String getDescription(Document html) {
         if (!html.select("meta").isEmpty()) {
-            return html.selectFirst("meta[name=description]").attr("content");
+            if (html.select("meta[name=description]").hasAttr("content")) {
+                return html.selectFirst("meta[name=description]").attr("content");
+            }
         }
         return "";
     }
-
 }

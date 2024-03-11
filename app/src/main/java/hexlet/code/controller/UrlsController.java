@@ -61,7 +61,7 @@ public class UrlsController {
 
     public static void showUrl(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Long.class).get();
-        var message = ctx.sessionAttribute("message");
+        String message = ctx.sessionAttribute("message");
         ctx.consumeSessionAttribute("message");
         var url = UrlsRepository.findByID(id)
                 .orElseThrow(() -> new NotFoundResponse("URL not found"));

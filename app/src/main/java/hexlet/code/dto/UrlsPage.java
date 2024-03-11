@@ -1,10 +1,8 @@
 package hexlet.code.dto;
 
 import hexlet.code.model.Url;
-
 import java.util.HashMap;
 import java.util.List;
-
 import hexlet.code.model.UrlCheck;
 import lombok.Getter;
 

@@ -1,10 +1,10 @@
 package hexlet.code.dto;
 
 import hexlet.code.model.Url;
-
 import hexlet.code.model.UrlCheck;
-import lombok.Getter;
 import java.util.List;
+import lombok.Getter;
+
 
 @Getter
 public class UrlPage extends MainPage {

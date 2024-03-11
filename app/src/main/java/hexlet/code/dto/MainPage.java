@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 public class MainPage {
     private Object message;
 
-    public final String formatTimestamp(Timestamp ts) {
+    public static String formatTimestamp(Timestamp ts) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         return ts.toLocalDateTime().format(formatter);
     }
