@@ -53,7 +53,7 @@ public final class AppTest {
     @BeforeEach
     public void setApp() throws SQLException, IOException {
         String localUrl = "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1";
-        app = App.getApp(localUrl);
+        app = App.getApp();
     }
 
 

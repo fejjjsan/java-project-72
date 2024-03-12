@@ -33,24 +33,25 @@ public class App {
 
         Map<String, String> env = System.getenv();
 
-        Javalin app;
-
-        if (env.containsKey("JDBC_DATABASE_URL")) {
-            var dbUrl = env.get("JDBC_DATABASE_URL");
-            app = getApp(dbUrl);
-        } else {
-            app = getApp(LOCAL_URL);
-        }
+        Javalin app = getApp();
 
         app.start();
     }
 
-    public static Javalin getApp(String dbUrl) throws IOException, SQLException {
+    public static Javalin getApp() throws IOException, SQLException {
         Logger logger = LoggerFactory.getLogger(App.class);
         logger.info("Logger started");
 
+        Map<String, String> env = System.getenv();
         var hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(dbUrl);
+
+        if (env.containsKey("JDBC_DATABASE_URL")) {
+            var dbUrl = env.get("JDBC_DATABASE_URL");
+            hikariConfig.setJdbcUrl(dbUrl);
+        } else {
+            hikariConfig.setJdbcUrl(LOCAL_URL);
+        }
+
         var dataSource = new HikariDataSource(hikariConfig);
 
         var url = App.class.getClassLoader().getResource("urls.sql");
