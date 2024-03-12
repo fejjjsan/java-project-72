@@ -48,7 +48,7 @@ public class ChecksRepository extends BaseRepository {
 
             while (resultSet.next()) {
                 var urlCheck = UrlCheck.builder()
-                        .id(resultSet.getLong("check_id"))
+                        .id(resultSet.getLong("id"))
                         .urlId(urlId)
                         .statusCode(resultSet.getInt("status_code"))
                         .title(resultSet.getString("title"))
