@@ -122,9 +122,8 @@ public final class AppTest {
             assertThat(body).contains("Хекслет — Лучшая школа программирования");
             assertThat(body).contains("Hello Hexlet!");
             assertThat(body).contains("200");
-            });
+        });
     }
-
 
     @Test
     public void testUrlsLastChecks() {
