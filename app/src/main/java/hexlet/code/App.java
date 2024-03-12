@@ -31,8 +31,6 @@ public class App {
 
     public static void main(String[] args) throws SQLException, IOException {
 
-        Map<String, String> env = System.getenv();
-
         Javalin app = getApp();
 
         app.start(getPort());
@@ -53,7 +51,7 @@ public class App {
         }
         var dataSource = new HikariDataSource(hikariConfig);
 
-        var sql = readResourceFile("urls.sql");
+        var sql = readResourceFile("schema.sql");
 
         try (var conn = dataSource.getConnection();
              var statement = conn.createStatement()) {
