@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.Map;
@@ -51,12 +52,9 @@ public class App {
         } else {
             hikariConfig.setJdbcUrl(LOCAL_URL);
         }
-
         var dataSource = new HikariDataSource(hikariConfig);
 
-        var url = App.class.getClassLoader().getResource("urls.sql");
-        var file = new File(url.getFile());
-        var sql = Files.lines(file.toPath()).collect(Collectors.joining("\n"));
+        var sql = readResourceFile("urls.sql");
 
         try (var conn = dataSource.getConnection();
              var statement = conn.createStatement()) {
@@ -81,5 +79,13 @@ public class App {
         ClassLoader classLoader = App.class.getClassLoader();
         ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates", classLoader);
         return TemplateEngine.create(codeResolver, ContentType.Html);
+    }
+
+    private static String readResourceFile(String fileName) throws IOException {
+        var url = App.class.getClassLoader().getResource(fileName);
+        var file = new File(url.getFile());
+        try (var sql = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
+            return sql.collect(Collectors.joining("\n"));
+        }
     }
 }
