@@ -27,8 +27,7 @@ import java.util.stream.Collectors;
 
 
 public class App {
-    private static final  int PORT = 7070;
-    private static final  String LOCAL_URL = "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1";
+    private static final  String LOCAL_DB = "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1";
 
     public static void main(String[] args) throws SQLException, IOException {
 
@@ -36,7 +35,7 @@ public class App {
 
         Javalin app = getApp();
 
-        app.start();
+        app.start(getPort());
     }
 
     public static Javalin getApp() throws IOException, SQLException {
@@ -50,7 +49,7 @@ public class App {
             var dbUrl = env.get("JDBC_DATABASE_URL");
             hikariConfig.setJdbcUrl(dbUrl);
         } else {
-            hikariConfig.setJdbcUrl(LOCAL_URL);
+            hikariConfig.setJdbcUrl(LOCAL_DB);
         }
         var dataSource = new HikariDataSource(hikariConfig);
 
@@ -87,5 +86,10 @@ public class App {
         try (var sql = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
             return sql.collect(Collectors.joining("\n"));
         }
+    }
+
+    private static int getPort() {
+        String port = System.getenv().getOrDefault("PORT", "7070");
+        return Integer.valueOf(port);
     }
 }
