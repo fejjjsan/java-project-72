@@ -6,7 +6,7 @@ CREATE TABLE urls (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-DROP TABLE IF EXISTS url_checks CASCADE;
+DROP TABLE IF EXISTS url_checks;
 
 CREATE TABLE url_checks (
     id bigint GENERATED ALWAYS AS IDENTITY,
