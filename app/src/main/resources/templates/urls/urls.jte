@@ -13,7 +13,7 @@
     @endif
     <section>
         <div class="container-lg mt-5">
-            <h1>Сыйты</h1>
+            <h1>Сaйты</h1>
             <table class="table table-bordered">
                 <thead>
                 <tr>

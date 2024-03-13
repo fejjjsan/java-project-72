@@ -27,10 +27,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="${NamedRoutes.rootPath()}">Home</a>
+                    <a class="nav-link" aria-current="page" href="${NamedRoutes.rootPath()}">На главную</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${NamedRoutes.urlsPath()}">Sites</a>
+                    <a class="nav-link" href="${NamedRoutes.urlsPath()}">Сайты</a>
                 </li>
             </ul>
         </div>
