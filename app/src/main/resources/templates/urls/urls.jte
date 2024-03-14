@@ -14,7 +14,7 @@
     <section>
         <div class="container-lg mt-5">
             <h1>Сaйты</h1>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>

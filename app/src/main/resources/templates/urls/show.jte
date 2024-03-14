@@ -36,7 +36,7 @@
             </tr>
             </tbody>
         </table>
-
+    <h2 class="mt-5">Проверки</h2>
     <form action="${NamedRoutes.checksPath(page.getUrl().getId())}" method="post">
         <button type="submit" class="btn btn-primary">Запустить проверку</button>
     </form>
@@ -53,7 +53,7 @@
             </tr>
             </thead>
             <tbody>
-            @for(var check : page.getChecks())
+            @for(var check : page.reverseList(page.getChecks()))
             <tr>
                 <th scope="row">${check.getId()}</th>
                 <td>${check.getTitle()}</td>
