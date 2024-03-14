@@ -18,18 +18,19 @@ application {
     mainClass = 'hexlet.code.App'
 }
 
-shadowJar {
-    archiveBaseName.set('shadow')
-    archiveClassifier.set('')
-    archiveVersion.set('')
-}
+//shadowJar {
+//    archiveBaseName.set('shadow')
+//    archiveClassifier.set('')
+//    archiveVersion.set('')
+//}
+//
+//jar {
+//    manifest {
+//        attributes 'Class-Path': '/libs/shadow.jar'
+//    }
+//}
 
-jar {
-    manifest {
-        attributes 'Class-Path': '/libs/shadow.jar'
-    }
-}
-
+tasks.named("jar") { dependsOn(tasks.named("shadowJar")) }
 
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
