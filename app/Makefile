@@ -1,8 +1,7 @@
 # Makefile
 
 build:
-	./gradlew clean
-	./gradlew build
+	./gradlew clean build
 
 run:
 	./gradlew run
