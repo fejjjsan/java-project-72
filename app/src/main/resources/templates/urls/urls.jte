@@ -14,7 +14,7 @@
     <section>
         <div class="container-lg mt-5">
             <h1>Сaйты</h1>
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -43,4 +43,5 @@
             </table>
         </div>
     </section>
+
 `)

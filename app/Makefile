@@ -1,10 +1,8 @@
 # Makefile
 
 build:
-	./gradlew clean build
-
-clean:
 	./gradlew clean
+	./gradlew build
 
 run:
 	./gradlew run
@@ -15,11 +13,15 @@ test:
 lint:
 	./gradlew checkstyleMain
 
-install:
+install-dist:
 	./gradlew installDist
 
-lint:
-	./gradlew checkstyleMain
+run-dist:
+	./build/install/app/bin/app
+
+generate-test-report:
+	./gradlew jacocoTestReport
 
 .PHONY: build
 .PHONY: test
+.PHONY: jacocoTestReport

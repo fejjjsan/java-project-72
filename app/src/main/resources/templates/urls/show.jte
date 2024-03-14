@@ -1,6 +1,5 @@
 @import hexlet.code.dto.UrlPage
 @import hexlet.code.util.NamedRoutes
-@import java.util.Collections
 
 @param UrlPage page
 
@@ -37,12 +36,12 @@
             </tr>
             </tbody>
         </table>
-    <h2 class="mt-5">Проверки</h2>
+
     <form action="${NamedRoutes.checksPath(page.getUrl().getId())}" method="post">
         <button type="submit" class="btn btn-primary">Запустить проверку</button>
     </form>
     @if (page.getChecks() != null)
-        <table class="table table-bordered table-hover mt-1">
+        <table class="table table-bordered table-hover mt-3">
             <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -54,7 +53,7 @@
             </tr>
             </thead>
             <tbody>
-            @for(var check : page.reverseList(page.getChecks()))
+            @for(var check : page.getChecks())
             <tr>
                 <th scope="row">${check.getId()}</th>
                 <td>${check.getTitle()}</td>
