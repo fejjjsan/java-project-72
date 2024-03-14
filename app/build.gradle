@@ -18,17 +18,17 @@ application {
     mainClass = 'hexlet.code.App'
 }
 
-//shadowJar {
-//    archiveBaseName.set('shadow')
-//    archiveClassifier.set('')
-//    archiveVersion.set('')
-//}
-//
-//jar {
-//    manifest {
-//        attributes 'Class-Path': '/libs/shadow.jar'
-//    }
-//}
+shadowJar {
+    archiveBaseName.set('shadow')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+}
+
+jar {
+    manifest {
+        attributes 'Class-Path': '/libs/shadow.jar'
+    }
+}
 
 tasks.named("jar") { dependsOn(tasks.named("shadowJar")) }
 
