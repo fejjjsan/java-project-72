@@ -4,7 +4,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e9092f4c42e84a9c3f0c/test_coverage)](https://codeclimate.com/github/fejjjsan/java-project-72/test_coverage)
 
 ## Page Analyzer
-Page Analyzer - это сайт, который анализирует указанные страницы на SEO пригодность.
+Page Analyzer это - сайт, который анализирует указанные страницы на SEO пригодность.
 
 [**Перейти к проекту**](https://page-analyzer-opz5.onrender.com)
 
