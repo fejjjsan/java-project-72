@@ -1,6 +1,6 @@
 # Makefile
 
-build:
+install:
 	./gradlew clean build
 
 run:
@@ -12,8 +12,8 @@ test:
 lint:
 	./gradlew checkstyleMain
 
-install-dist:
-	./gradlew installDist
+clean:
+	./gradlew clean
 
 run-dist:
 	./build/install/app/bin/app

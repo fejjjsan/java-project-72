@@ -21,9 +21,9 @@ public class UrlPage extends MainPage {
     }
 
     public final List<UrlCheck> reverseList(List<UrlCheck> checks) {
-                var copyChecks = new ArrayList<>(checks);
-                Collections.reverse(copyChecks);
-                return copyChecks;
+        var copyChecks = new ArrayList<>(checks);
+        Collections.reverse(copyChecks);
+        return copyChecks;
     }
 
 }
